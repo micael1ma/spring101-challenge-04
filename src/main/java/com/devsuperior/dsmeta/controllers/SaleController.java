@@ -30,7 +30,7 @@ public class SaleController {
 	public ResponseEntity<Page<ReportDTO>> getReport(
 			@RequestParam(name = "minDate", defaultValue = "") String minDate,
 			@RequestParam(name = "maxDate", defaultValue = "") String maxDate,
-			@RequestParam(name = "name", defaultValue = "") String name,
+			@RequestParam(name = "name", defaultValue = " ") String name,
 			Pageable pageable) {
 
 		Page<ReportDTO> dto = service.findReport(minDate, maxDate, name, pageable);

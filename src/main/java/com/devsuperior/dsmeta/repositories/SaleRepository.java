@@ -1,6 +1,5 @@
 package com.devsuperior.dsmeta.repositories;
 
-import com.devsuperior.dsmeta.dto.ReportDTO;
 import com.devsuperior.dsmeta.projections.ReportProjection;
 import com.devsuperior.dsmeta.projections.SummaryProjection;
 import org.springframework.data.domain.Page;
@@ -22,10 +21,9 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
             "tb_seller.name " +
             "FROM tb_seller " +
             "INNER JOIN tb_sales ON tb_sales.seller_id = tb_seller.id " +
-            "WHERE tb_sales.date BETWEEN '2022-05-01' AND '2022-05-31' " +
-            "AND UPPER(tb_seller.name) LIKE UPPER(CONCAT('%', 'Odinson', '%'))")
+            "WHERE tb_sales.date BETWEEN :minDate AND :maxDate " +
+            "AND UPPER(tb_seller.name) LIKE UPPER(CONCAT('%', :name, '%'))")
     Page<ReportProjection> serachReport(LocalDate minDate, LocalDate maxDate, String name, Pageable pageable);
-
 
     @Query(nativeQuery = true, value = "SELECT tb_seller.name, SUM(tb_sales.amount) AS sum " +
             "FROM tb_seller " +
