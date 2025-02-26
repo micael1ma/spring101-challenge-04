@@ -14,7 +14,7 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
     @Query(nativeQuery = true, value = "SELECT tb_seller.name, SUM(tb_sales.amount) AS sum " +
             "FROM tb_seller " +
             "INNER JOIN tb_sales ON tb_sales.seller_id = tb_seller.id " +
-            "WHERE tb_sales.date BETWEEN '2022-01-01' AND '2022-06-30' " +
+            "WHERE tb_sales.date BETWEEN :minDate AND :maxDate " +
             "GROUP BY tb_seller.name;")
     List<SummaryProjection> searchSummary(LocalDate minDate, LocalDate maxDate);
 

@@ -28,12 +28,22 @@ public class SaleService {
 
 	public List<SummaryDTO> findSummary(String minDate, String maxDate) {
 
-		LocalDate present = LocalDate.now();
-		LocalDate past = present.minusYears(1);
+		LocalDate pastDate;
+		if (minDate.isEmpty()) {
+			pastDate = LocalDate.now().minusYears(1);
+		}else{
+			pastDate = LocalDate.parse(minDate);
+		}
 
-		List<SummaryProjection> projection = repository.searchSummary(present, past);
+		LocalDate presentDate;
+		if (maxDate.isEmpty()) {
+			presentDate = LocalDate.now();
+		}else{
+			presentDate = LocalDate.parse(maxDate);
+		}
+
+		List<SummaryProjection> projection = repository.searchSummary(pastDate, presentDate);
 		List<SummaryDTO> dto = projection.stream().map(x -> new SummaryDTO(x)).collect(Collectors.toList());
-
 		return dto;
 	}
 }
