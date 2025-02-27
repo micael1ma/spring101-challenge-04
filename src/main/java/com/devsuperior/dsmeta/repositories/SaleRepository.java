@@ -22,6 +22,11 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
             "FROM tb_seller " +
             "INNER JOIN tb_sales ON tb_sales.seller_id = tb_seller.id " +
             "WHERE tb_sales.date BETWEEN :minDate AND :maxDate " +
+            "AND UPPER(tb_seller.name) LIKE UPPER(CONCAT('%', :name, '%'))",
+            countQuery = "SELECT COUNT(*) " +
+            "FROM tb_seller " +
+            "INNER JOIN tb_sales ON tb_sales.seller_id = tb_seller.id " +
+            "WHERE tb_sales.date BETWEEN :minDate AND :maxDate " +
             "AND UPPER(tb_seller.name) LIKE UPPER(CONCAT('%', :name, '%'))")
     Page<ReportProjection> serachReport(LocalDate minDate, LocalDate maxDate, String name, Pageable pageable);
 
